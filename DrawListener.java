@@ -266,30 +266,30 @@ public class DrawListener extends DrawListenerFather {
         x3 = e.getX();
         y3 = e.getY();
         if(change_flag == 1){
-            AllShapes allShapes = new AllShapes();
+//            AllShapes allShapes = new AllShapes();
 //            allShapes.addNewShape(x2,y2);
 
 //            int n = shapeList.size();
 //            allShapes.withDraw(n-1);
 
 
-//            withDrawTest();
-            addNewShape(x2,y2);
+//            withDrawTest(n-1);
+//            addNewShape(x2,y2);
 
-
-
-//            toMove.changeLocation(x2,y2,x3,y3);
-//            shapeList.add(toMove);
-//            if (toMoveNum!=-1) {
-////                shapeList.remove(toMoveNum);
-//                toMoveNum = -1;
-//            }
-////            drawJPanel.paint(g);
+            if(this.toMove != null) {
+                toMove.changeLocation(x2, y2, x3, y3);
+                if (toMoveNum != -1) {
+//                shapeList.remove(toMoveNum);
+                    toMoveNum = -1;
+                }
+                shapeList.add(toMove);
+                drawJPanel.paint(g);
 //            toMove.drawShape(g);
 ////            if (!shapeList.isEmpty()) {
 ////                shapeList.remove(shapeList.size() - 1);
 ////                drawJPanel.paint(g);
 ////            }
+            }
             return;
         }
         if(shapeName == null) return;
@@ -337,9 +337,19 @@ public class DrawListener extends DrawListenerFather {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        x2 = e.getX();
+        y2 = e.getY();
         if(change_flag == 1){
-
-            return;
+            int i = 0;
+            for(Shapes ashape:shapeList){
+                if(ashape.isIn(x2,y2)){
+                    System.out.println("BasicShape is chosen !!!");
+                    toMove = (BasicShape) ashape;
+                    toMoveNum = i;
+                    //ywb
+                }
+                i++;
+            }
         }
         if(shapeName == null) return;
         switch(shapeName){
@@ -409,9 +419,9 @@ public class DrawListener extends DrawListenerFather {
         getsourceLocaiton();
         x2 = e.getX();
         y2 = e.getY();
-//        if(change_flag == 1){
-//            return;
-//        }
+        if(change_flag == 1){
+            return;
+        }
         if(shapeName == null) return;
         switch (shapeName){
             case "实时直线":
@@ -435,6 +445,7 @@ public class DrawListener extends DrawListenerFather {
                     toMove = (BasicShape) ashape;
                     toMoveNum = i;
                     //ywb
+                    break;//只选一个
                 }
                 i++;
             }
